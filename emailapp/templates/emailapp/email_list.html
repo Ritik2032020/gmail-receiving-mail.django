@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".read-button").click(function() {
+                var emailId = $(this).attr("data-email-id");
+                $("#email-body-" + emailId).toggle();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Last 5 Emails</h1>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Subject</th>
+            <th>Sender</th>
+            <th>Received Date</th>
+            <th>Action</th>
+        </tr>
+        {% for email in emails %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ email.subject }}</td>
+            <td>{{ email.sender }}</td>
+            <td>{{ email.received_date }}</td>
+            <td>
+                <button class="read-button" data-email-id="{{ email.id }}">Read</button>
+            </td>
+        </tr>
+        <tr id="email-body-{{ email.id }}" style="display: none;">
+            <td colspan="5">
+                <h3>Email Body</h3>
+                {{ email.body|linebreaks }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
